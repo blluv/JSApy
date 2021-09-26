@@ -21,6 +21,7 @@ sensor_type = {
 class Frame():
     def_frame = [255, 255, 0, 0, 0, 0, 0, 0,
                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 254]
+                 
     inputPorts = [2,4,6,8]
 
     outputReadPorts = [10, 11]
