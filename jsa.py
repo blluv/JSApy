@@ -1,5 +1,4 @@
 import serial
-import threading
 
 sensor_type = {
     0: "DISCONNECTED",
@@ -21,8 +20,8 @@ sensor_type = {
 class Frame():
     def_frame = [255, 255, 0, 0, 0, 0, 0, 0,
                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 254]
-                 
-    inputPorts = [2,4,6,8]
+
+    inputPorts = [2, 4, 6, 8]
 
     outputReadPorts = [10, 11]
     outputWritePorts = [5, 7]
@@ -44,12 +43,13 @@ class Frame():
     def setServo(self, port, val):
         val = max(0, min(180, val))
         val = 180 - val + 1
-        self.data[self.outputWritePorts[self.outputReadPorts.index(port)]] = val
+        self.data[self.outputWritePorts[self.outputReadPorts.index(
+            port)]] = val
 
     def getInputPort(self, port):
         if not port in self.inputPorts:
             raise Exception("Invalid Port")
-            
+
         type = sensor_type[self.data[port] >> 2]
         val = (self.data[port] & 3) << 8 | self.data[port + 1]
 
