@@ -1,6 +1,5 @@
 import serial
 import threading
-import asyncio
 
 sensor_type = {
     0: "DISCONNECTED",
@@ -48,7 +47,7 @@ class Frame():
 
     def getInputPort(self, port):
         if not port in self.inputPorts:
-            raise Exception("Invalid Port num")
+            raise Exception("Invalid Port")
             
         type = sensor_type[self.data[port] >> 2]
         val = (self.data[port] & 3) << 8 | self.data[port + 1]
@@ -64,7 +63,7 @@ class Frame():
 
     def getOutputPort(self, port):
         if not port in self.outputReadPorts:
-            raise Exception("Invalid Port num")
+            raise Exception("Invalid Port")
 
         type = sensor_type[self.data[port] & 127]
 
@@ -99,7 +98,6 @@ class Frame():
 
 class JSA():
     device: serial.Serial
-    timer: threading.Timer
     frame: Frame
 
     def __init__(self):
@@ -114,7 +112,7 @@ class JSA():
 
     def _readFrame(self):
         data = self.device.read(size=17)
-        frame = Frame(list(data))
+        frame = Frame(data)
         return frame
 
     def getData(self):
